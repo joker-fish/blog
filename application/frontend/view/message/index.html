@@ -1,0 +1,51 @@
+{extend name='common/base' /}
+
+{block name='main'}
+<style>
+  .fb img{
+    width: 47px;
+    position: relative;
+    top: 16px;
+    left: 2%;
+    border-radius: 50px;
+  }
+</style>
+<main class="r_box">
+  <div class="gbook">
+    {foreach name='data' item='vo'}
+    <div class="fb">
+      <img src="{$vo.avatar}" alt="">
+      <ul style="">
+        <p class="fbtime"><span> {$vo.create_time|date='Y-m-d',###} </span> {$vo.name}</p>
+        <p class="fbinfo">{$vo.content}</p>
+      </ul>
+    </div>
+    {/foreach}
+    <!--<div class="hf">-->
+      <!--<ul>-->
+        <!--<p class="zzhf"><font color="#FF0000">站长回复:</font>感谢捧场啊！看了你的网站，有两个月没更新了哦~</p>-->
+      <!--</ul>-->
+    <!--</div>-->
+    <div class="gbox">
+      <form action="addmessage.html" method="post" name="form1" id="form1">
+        <p> <strong>来说点儿什么吧...</strong></p>
+        <p><span> 您的昵称:</span>
+          <input name="name" type="text" id="name">
+          *</p>
+        <p><span>联系邮箱:</span>
+          <input name="email" type="text" id="email">
+          *</p>
+        <p><span class="tnr">留言内容:</span>
+          <textarea name="lytext" cols="60" rows="12" id="lytext"></textarea>
+        </p>
+        <p>
+          <input type="submit" name="Submit3" value="提交">
+          <input name="enews" type="hidden" id="enews" value="AddGbook">
+        </p>
+      </form>
+    </div>
+  </div>
+</main>
+
+
+{/block}

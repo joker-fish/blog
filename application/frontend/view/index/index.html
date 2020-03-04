@@ -1,0 +1,15 @@
+{extend name='common/base' /}
+
+{block name='main'}
+<main class="r_box">
+  {foreach name='data' item='vo'}
+  <li><i><a href="/articeinfo.html?id={$vo.id}"><img src="{$vo.cover}"></a></i>
+    <h3><a href="/articeinfo.html?id={$vo.id}">{$vo.title}</a></h3>
+    <p>{$vo.desc}</p>
+  </li>
+  {/foreach}
+</main>
+<div style="margin-left: 47%;">{$data->render()}</div>
+
+
+{/block}

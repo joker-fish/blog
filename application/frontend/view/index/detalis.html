@@ -1,0 +1,111 @@
+{extend name='common/base' /}
+{block name='css_file'}
+<link href="/frontend/css/info.css" rel="stylesheet">
+{/block}
+{block name='main'}
+<style>
+  .fb img{
+    width: 47px;
+    position: relative;
+    top: 16px;
+    left: 2%;
+    border-radius: 50px;
+  }
+</style>
+<main>
+  <div class="infosbox">
+    <div class="newsview">
+      <h3 class="news_title">{$data.title}</h3>
+      <div class="bloginfo">
+        <ul>
+          <li class="author">作者：<a href="/">小鱼儿</a></li>
+          <li class="lmname"><a href="/">{$data.classify.name}</a></li>
+          <li class="timer">时间：{$data.create_time|date='Y-m-d',###}</li>
+          <li class="view">{$data.read}人已阅读</li>
+        </ul>
+      </div>
+      <!--<div class="tags"><a href="/" target="_blank">个人博客</a> &nbsp; <a href="/" target="_blank">小世界</a></div>-->
+      <div class="news_about"><strong>简介</strong>{$data.desc}</div>
+      <div class="news_con">
+        {$data.content}
+      </div>
+    </div>
+    <div class="share">
+      <p class="diggit"><a href="javascript:;" id="ccc"> 快点个赞！ </a>(<b id="diggnum">{$data.click}</b>)</p>
+    </div>
+    <div class="nextinfo">
+      <p>上一篇：{if condition='$prev neq NULL'}<a href="articeinfo.html?id={$prev.id}">{$prev.title}</a>{else/}<a href="index.html">返回列表</a>{/if}</p>
+      <p>下一篇：{if condition='$next neq NULL'}<a href="articeinfo.html?id={$next.id}">{$next.title}</a>{else/}<a href="index.html">返回列表</a>{/if}</p>
+    </div>
+    <div class="news_pl">
+      <h2>文章评论</h2>
+      <div class="gbko">
+        {foreach name='comment' item='vo'}
+        <div class="fb">
+          <img src="{$vo.avatar}" alt="">
+          <ul>
+            <p class="fbtime"><span>{$vo.create_time|date='Y-m-d H:i:s',###}</span>{$vo.name}</p>
+            <p class="fbinfo">{$vo.content}</p>
+          </ul>
+        </div>
+        {/foreach}
+
+        <script>
+          function CheckPl(obj)
+          {
+            if(obj.saytext.value=="")
+            {
+              alert("您没什么话要说吗？");
+              obj.saytext.focus();
+              return false;
+            }
+            return true;
+          }
+        </script>
+        <form action="/articeaddcomment.html" method="post">
+          <div id="plpost">
+            <p class="saying"><span><a href="/e/pl/?classid=77&amp;id=106">共有<script type="text/javascript" src="/e/public/ViewClick/?classid=77&amp;id=106&amp;down=2"></script>{$comment_count}条评论</a></span>来说两句吧...</p>
+            <p class="yname"><span>用户名:</span>
+              <input name="username" type="text" class="inputText" id="username" value="" size="16">
+            </p>
+            <!--<p class="yzm"><span>验证码:</span>-->
+              <!--<input name="key" type="text" class="inputText" size="16">-->
+            <!--</p>-->
+            <input type="hidden" name="id" value="{$data.id}">
+            <textarea name="content" rows="6" id="saytext"></textarea>
+            <input type="submit" value="提交">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  $('#ccc').click(function(){
+    $.ajax({
+      url: '/click.html',
+      method: 'post',
+      data: {'id': '{$data.id}'},
+      success:function(res){
+        if (res.code == 200){
+          $('#diggnum').text(parseInt($('#diggnum').text())+1);
+        }
+        layer.msg(res.msg);
+      }
+    })
+  })
+  // $('#sub').click(function(){
+  //   $.ajax({
+  //     url: '/articeaddcomment.html',
+  //     method: 'post',
+  //     data: {'username': $('#username').val(), 'content': $('#saytext').val(), 'id': '{$data.id}'},
+  //     success:function(res){
+  //       if (res.code == 200){
+  //         $('#diggnum').text(parseInt($('#diggnum').text())+1);
+  //       }
+  //       layer.msg(res.msg);
+  //     }
+  //   })
+  // })
+</script>
+{/block}
